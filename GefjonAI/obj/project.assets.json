@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
+      "AdaptiveCards/1.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.4.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -1742,6 +1755,22 @@
           "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Language.LUIS.dll": {}
         }
       },
+      "Microsoft.Azure.CognitiveServices.Search.ImageSearch/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Rest.ClientRuntime": "[2.3.18, 3.0.0)",
+          "Microsoft.Rest.ClientRuntime.Azure": "[3.3.18, 4.0.0)",
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.3",
+          "System.Net.Http": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll": {}
+        }
+      },
       "Microsoft.Azure.KeyVault/2.3.2": {
         "type": "package",
         "dependencies": {
@@ -1823,6 +1852,20 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Bot.Builder.AI.Luis.dll": {}
+        }
+      },
+      "Microsoft.Bot.Builder.AI.QnA/4.3.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bot.Builder": "4.3.2",
+          "Microsoft.Bot.Configuration": "4.3.2",
+          "SourceLink.Create.CommandLine": "2.8.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Bot.Builder.AI.QnA.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Bot.Builder.AI.QnA.dll": {}
         }
       },
       "Microsoft.Bot.Builder.Integration.AspNet.Core/4.3.2": {
@@ -3260,7 +3303,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "Newtonsoft.Json/11.0.2": {
+      "Newtonsoft.Json/12.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -5404,6 +5447,20 @@
     }
   },
   "libraries": {
+    "AdaptiveCards/1.1.2": {
+      "sha512": "gOBBtjN9OjmRhJHRAvQKeRfRFTk/rRZjvtMQXGVQ7dgikUo+aPxOvPNipVhBIdj3t1GupfnZnupQ92HrXM748w==",
+      "type": "package",
+      "path": "adaptivecards/1.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "adaptivecards.1.1.2.nupkg.sha512",
+        "adaptivecards.nuspec",
+        "lib/net452/AdaptiveCards.dll",
+        "lib/netstandard1.3/AdaptiveCards.dll",
+        "lib/netstandard2.0/AdaptiveCards.dll"
+      ]
+    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -6886,6 +6943,23 @@
         "microsoft.azure.cognitiveservices.language.luis.runtime.nuspec"
       ]
     },
+    "Microsoft.Azure.CognitiveServices.Search.ImageSearch/2.0.0": {
+      "sha512": "YlHIjFbXJg7sL7H3AgYJS7DCKEJhybImev8g9YU7bwMfFVRmeVqSjptLxsBBM7cm1y8hafHbzFCO44ojqPlmCQ==",
+      "type": "package",
+      "path": "microsoft.azure.cognitiveservices.search.imagesearch/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Search.ImageSearch.runtimeconfig.json",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Search.ImageSearch.xml",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Search.ImageSearch.dll",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Search.ImageSearch.runtimeconfig.json",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Search.ImageSearch.xml",
+        "microsoft.azure.cognitiveservices.search.imagesearch.2.0.0.nupkg.sha512",
+        "microsoft.azure.cognitiveservices.search.imagesearch.nuspec"
+      ]
+    },
     "Microsoft.Azure.KeyVault/2.3.2": {
       "sha512": "A82ESUdfLz2wMhYuPxrwf/fA7JVt3IARgeMCG3TsaLtxUxa9RBKX3f0zdnKmvBvJ/u1/5g03OLR26GPekqY5HQ==",
       "type": "package",
@@ -6964,6 +7038,20 @@
         "lib/netstandard2.0/Microsoft.Bot.Builder.AI.Luis.xml",
         "microsoft.bot.builder.ai.luis.4.3.2.nupkg.sha512",
         "microsoft.bot.builder.ai.luis.nuspec"
+      ]
+    },
+    "Microsoft.Bot.Builder.AI.QnA/4.3.2": {
+      "sha512": "lZsE59FOci4u2e7uLVE4Menv6vT806oEsWnPcpLwuC3+THjJZmY/aVkESQEsfoLB7FyxGeuPum/a04GP5cuEgQ==",
+      "type": "package",
+      "path": "microsoft.bot.builder.ai.qna/4.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Bot.Builder.AI.QnA.dll",
+        "lib/netstandard2.0/Microsoft.Bot.Builder.AI.QnA.pdb",
+        "lib/netstandard2.0/Microsoft.Bot.Builder.AI.QnA.xml",
+        "microsoft.bot.builder.ai.qna.4.3.2.nupkg.sha512",
+        "microsoft.bot.builder.ai.qna.nuspec"
       ]
     },
     "Microsoft.Bot.Builder.Integration.AspNet.Core/4.3.2": {
@@ -8845,10 +8933,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Newtonsoft.Json/11.0.2": {
-      "sha512": "IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
+    "Newtonsoft.Json/12.0.2": {
+      "sha512": "rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "type": "package",
-      "path": "newtonsoft.json/11.0.2",
+      "path": "newtonsoft.json/12.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -8871,7 +8959,7 @@
         "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.11.0.2.nupkg.sha512",
+        "newtonsoft.json.12.0.2.nupkg.sha512",
         "newtonsoft.json.nuspec"
       ]
     },
@@ -14302,15 +14390,19 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "AdaptiveCards >= 1.1.2",
       "Microsoft.AspNetCore.All >= 2.1.1",
+      "Microsoft.Azure.CognitiveServices.Search.ImageSearch >= 2.0.0",
       "Microsoft.Bot.Builder >= 4.3.2",
       "Microsoft.Bot.Builder.AI.Luis >= 4.3.2",
+      "Microsoft.Bot.Builder.AI.QnA >= 4.3.2",
       "Microsoft.Bot.Builder.Integration.AspNet.Core >= 4.3.2",
       "Microsoft.Bot.Configuration >= 4.3.2",
       "Microsoft.Bot.Connector >= 4.3.2",
       "Microsoft.Bot.Schema >= 4.3.2",
       "Microsoft.Extensions.Logging.AzureAppServices >= 2.2.0",
-      "Microsoft.NETCore.App >= 2.1.0"
+      "Microsoft.NETCore.App >= 2.1.0",
+      "Newtonsoft.Json >= 12.0.2"
     ]
   },
   "packageFolders": {
@@ -14320,11 +14412,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lukeh\\Desktop\\GefjonAI\\GefjonAI\\GefjonAI.csproj",
+      "projectUniqueName": "C:\\Users\\lukeh\\Desktop\\Comp Sci\\GitHub\\Gefjon\\GefjonAI\\GefjonAI.csproj",
       "projectName": "GefjonAI",
-      "projectPath": "C:\\Users\\lukeh\\Desktop\\GefjonAI\\GefjonAI\\GefjonAI.csproj",
+      "projectPath": "C:\\Users\\lukeh\\Desktop\\Comp Sci\\GitHub\\Gefjon\\GefjonAI\\GefjonAI.csproj",
       "packagesPath": "C:\\Users\\lukeh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lukeh\\Desktop\\GefjonAI\\GefjonAI\\obj\\",
+      "outputPath": "C:\\Users\\lukeh\\Desktop\\Comp Sci\\GitHub\\Gefjon\\GefjonAI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -14354,17 +14446,29 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
+          "AdaptiveCards": {
+            "target": "Package",
+            "version": "[1.1.2, )"
+          },
           "Microsoft.AspNetCore.All": {
             "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.1, )",
             "autoReferenced": true
           },
+          "Microsoft.Azure.CognitiveServices.Search.ImageSearch": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
           "Microsoft.Bot.Builder": {
             "target": "Package",
             "version": "[4.3.2, )"
           },
           "Microsoft.Bot.Builder.AI.Luis": {
+            "target": "Package",
+            "version": "[4.3.2, )"
+          },
+          "Microsoft.Bot.Builder.AI.QnA": {
             "target": "Package",
             "version": "[4.3.2, )"
           },
@@ -14392,6 +14496,10 @@
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[12.0.2, )"
           }
         },
         "imports": [

@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace GefjonAI
 {
@@ -19,11 +20,13 @@ namespace GefjonAI
         private readonly GefjonAIAccessors _accessors;
         private readonly ILogger _logger;
         public static readonly string LuisKey = "Gefjon";
-        private const string welcomeText = "Hello, I am Gefjon. I can help you find a location and get an image off google";
+        public static readonly string QnAMakerKey = "Gefjon_Brain";
+        private const string welcomeText = "Hello, I am Gefjon. I can help you find a location, get an image off google, and tell you who someone is.";
         private readonly BotServices _botServices;
+        private bool welcomeflag = false; //bool so welcome text wont send twice
+        const string subscriptionKey = "b90627b391db4a81a05981b558890f2b"; //subscription key used for the bing search
+        const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/images/search";
 
-        private string googleurl = "https://www.google.com/search?q=";
-        private string urlend = "&tbm=isch";
 
         public GefjonAIBot(ConversationState conversationState, ILoggerFactory loggerFactory, BotServices services)
         {
@@ -56,31 +59,27 @@ namespace GefjonAI
         {
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                //might delete turn counter stuff vvv
-                var state = await _accessors.CounterState.GetAsync(turnContext, () => new CounterState());  // Get the conversation state from the turn context.
-                state.TurnCount++;  // Bump the turn count for this conversation.
-                await _accessors.CounterState.SetAsync(turnContext, state); // Set the property using the accessor.
-                await _accessors.ConversationState.SaveChangesAsync(turnContext); // Save the new turn count into the conversation state.
-
-                //getting Luis results
-                var recognizerResult = await _botServices.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
-                var topIntent = recognizerResult?.GetTopScoringIntent();
-                TriggerDialog(topIntent.Value.intent.ToString(), turnContext);
-                //if (topIntent != null && topIntent.HasValue && topIntent.Value.intent != "None")
-                //{
-                  //  await turnContext.SendActivityAsync($"==>LUIS Top Scoring Intent: {topIntent.Value.intent}, Score: {topIntent.Value.score}\n");
-                //}
-                //else
-                //{
-                //    var msg = @"No LUIS intents were found.";
-                //    await turnContext.SendActivityAsync(msg);
-                //}
+                var response = await _botServices.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
+                if (response != null && response.Length > 0)
+                {
+                    await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
+                }
+                else
+                {
+                    //getting Luis results
+                    var recognizerResult = await _botServices.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
+                    var topIntent = recognizerResult?.GetTopScoringIntent();
+                    await TriggerDialog(topIntent.Value.intent.ToString(), turnContext);
+                }
 
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                // Send a welcome message to the user and tell them what actions they may perform to use this bot. 
-               await turnContext.SendActivityAsync(welcomeText); //this sends twice see docs here:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-send-welcome-message?view=azure-bot-service-4.0&tabs=csharp
+                if (!welcomeflag)
+                {
+                    welcomeflag = true;
+                    await turnContext.SendActivityAsync(welcomeText); // Send a welcome message to the user and tell them what actions they may perform to use this bot. 
+                }
             }
         }
 
@@ -88,24 +87,40 @@ namespace GefjonAI
         {
             switch(intent)
             {
-                case "LocationFinder":
+                case "GetLocation":
                     await LocationFind(context);
                     break;
-                case "Greeting":
-                    await Greeting(context);
+                case "GetPerson":
+                    await GetPerson(context);
+                    break;
+                case "GetImage":
+                    await GetImage(context);
                     break;
                 case "Search":
-                    await SearchFor(context, context.Activity.Text);
+                    await Search(context);
                     break;
-                case "Stop":
-                    await Stop(context);
+                case "Weather.GetCondition":
+                    await GetWeatherConditions(context);
+                    break;
+                case "Weather.GetForecast":
+                    await GetForecast(context);
                     break;
             }
         }
 
-        private async Task Greeting(ITurnContext context)
+        private async Task GetForecast(ITurnContext context)
         {
-            await context.SendActivityAsync("Greetings");
+            await context.SendActivityAsync("Getting Person...");
+        }
+
+        private async Task GetWeatherConditions(ITurnContext context)
+        {
+            await context.SendActivityAsync("Getting Person...");
+        }
+
+        private async Task GetPerson(ITurnContext context)
+        {
+            await context.SendActivityAsync("Getting Person...");
         }
 
         private async Task LocationFind(ITurnContext context)
@@ -113,98 +128,57 @@ namespace GefjonAI
             await context.SendActivityAsync("Finding Location...");
         }
 
-        private async Task SearchFor(ITurnContext context, string message)
+        private async Task GetImage(ITurnContext context)
         {
-            
-
-            string url = googleurl + message + urlend;
-
-            /*string html = GetHTML(url);
-            List<string> urls = GetUrls(html);
-            var rnd = new Random();
-
-            int randomUrl = rnd.Next(0, urls.Count - 1);
-
-            string luckyUrl = urls[randomUrl];
-
-            byte[] image = GetImage(luckyUrl);
-            using (var ms = new MemoryStream(image))
-            {
-                
-            }*/
+            SearchResult result = BingSearch(context.Activity.Text); //change context to use only the entity returned
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(result.jsonResult); //deserialize JSON response
+            var firstJsonObj = jsonObj["value"][0]; //getting first image result
 
             var attachment = new Attachment
             {
-                ContentUrl = url
+                Name = "image",
+                ContentType = "image/png",
+                ContentUrl = firstJsonObj["contentUrl"] //content url is the direct link to the image
             };
 
             var reply = context.Activity.CreateReply();
             reply.Attachments = new List<Attachment>() { attachment };
 
-            // Send the activity to the user.
-            await context.SendActivityAsync(reply);
+            await context.SendActivityAsync(reply); // Send the activity to the user.
         }
 
-        //Might delete these vvv used for getting image windows form
-        private string GetHTML(string url)
+        static SearchResult BingSearch(string SearchTerm)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Accept = "text/html, application/xhtml+xml, */*";
-            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
-            string data = "";
+            var uriQuery = uriBase + "?q=" + Uri.EscapeDataString(SearchTerm); //creating the search url
 
-            var response = (HttpWebResponse)request.GetResponse();
+            WebRequest request = WebRequest.Create(uriQuery);
+            request.Headers["Ocp-Apim-Subscription-Key"] = subscriptionKey; //subscription key used for the api
+            HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
+            string json = new StreamReader(response.GetResponseStream()).ReadToEnd(); //returning web response as json
 
-            using (Stream dataStream = response.GetResponseStream())
+            var searchResult = new SearchResult() //call to struct to format result
             {
-                if (dataStream == null)
-                    return "";
-                using (var sr = new StreamReader(dataStream))
-                {
-                    data = sr.ReadToEnd();
-                }
-            }
-            return data;
-        }
-        private List<string> GetUrls(string html)
-        {
-            var urls = new List<string>();
+                jsonResult = json,
+                relevantHeaders = new Dictionary<String, String>()
+            };
 
-            int ndx = html.IndexOf("\"ou\"", StringComparison.Ordinal);
-
-            while (ndx >= 0)
+            foreach (String header in response.Headers)
             {
-                ndx = html.IndexOf("\"", ndx + 4, StringComparison.Ordinal);
-                ndx++;
-                int ndx2 = html.IndexOf("\"", ndx, StringComparison.Ordinal);
-                string url = html.Substring(ndx, ndx2 - ndx);
-                urls.Add(url);
-                ndx = html.IndexOf("\"ou\"", ndx2, StringComparison.Ordinal);
+                if (header.StartsWith("BingAPIs-") || header.StartsWith("X-MSEdge-"))
+                    searchResult.relevantHeaders[header] = response.Headers[header];
             }
-            return urls;
-        }
-        private byte[] GetImage(string url)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            var response = (HttpWebResponse)request.GetResponse();
-
-            using (Stream dataStream = response.GetResponseStream())
-            {
-                if (dataStream == null)
-                    return null;
-                using (var sr = new BinaryReader(dataStream))
-                {
-                    byte[] bytes = sr.ReadBytes(100000000);
-
-                    return bytes;
-                }
-            }
+            return searchResult;
         }
 
-        //probably dont need stop intent vvv
-        private async Task Stop(ITurnContext context)
+        private async Task Search(ITurnContext context)
         {
-            await context.SendActivityAsync("Stoping.");
+            await context.SendActivityAsync("Searching...");
+        }
+
+        struct SearchResult //For formatting JSON response
+        {
+            public String jsonResult;
+            public Dictionary<String, String> relevantHeaders;
         }
     }
 }

@@ -19,10 +19,19 @@
             "region": "westus",
             "subscriptionKey": "88ed006864b84237806dbd8e3469da22",
             "version": "0.1"
+        },
+        {
+            "type": "qna",
+            "endpointKey": "99f878be-e72d-4fe1-b2ff-b9ad6ad769f6",
+            "hostname": "https://gefjonqna.azurewebsites.net",
+            "id": "6fb65d9d-8e54-4fb4-b08a-dd5f6b5f71c9",
+            "kbId": "6fb65d9d-8e54-4fb4-b08a-dd5f6b5f71c9",
+            "name": "Gefjon_Brain",
+            "subscriptionKey": "ff5ec197c4bd490eb932f5b480dbadb0"
         }
     ],
     "padlock": "",
     "version": "2.0",
     "overrides": null,
-    "path": "C:\\Users\\lukeh\\Desktop\\GefjonAI\\GefjonAI\\GefjonAI.bot"
+    "path": "C:\\Users\\lukeh\\Desktop\\Comp Sci\\GitHub\\Gefjon\\GefjonAI\\GefjonAI.bot"
 }
