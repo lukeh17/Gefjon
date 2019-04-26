@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "7091df2879cc252d73dc84eb39303dc572ad6f5c"
+    "signature": "63de381eeb8d1eac972a2cecf2477281fb3a0adb"
   },
   "compilationOptions": {
     "defines": [
@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v2.1": {
       "GefjonAI/1.0.0": {
         "dependencies": {
+          "AdaptiveCards": "1.1.2",
           "Microsoft.AspNetCore.All": "2.1.1",
           "Microsoft.Azure.CognitiveServices.Search.ImageSearch": "2.0.0",
           "Microsoft.Bot.Builder": "4.3.2",
@@ -42,6 +43,21 @@
         },
         "compile": {
           "GefjonAI.dll": {}
+        }
+      },
+      "AdaptiveCards/1.1.2": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.1901.17001"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AdaptiveCards.dll": {}
         }
       },
       "Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime/2.1.0": {
@@ -4019,6 +4035,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AdaptiveCards/1.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gOBBtjN9OjmRhJHRAvQKeRfRFTk/rRZjvtMQXGVQ7dgikUo+aPxOvPNipVhBIdj3t1GupfnZnupQ92HrXM748w==",
+      "path": "adaptivecards/1.1.2",
+      "hashPath": "adaptivecards.1.1.2.nupkg.sha512"
     },
     "Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime/2.1.0": {
       "type": "package",

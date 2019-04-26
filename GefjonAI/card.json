@@ -1,0 +1,75 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "City, State",
+            "size": "large",
+            "isSubtle": true
+        },
+        {
+            "type": "TextBlock",
+            "text": "Date",
+            "spacing": "none"
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "ImageURL",
+                            "size": "small"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "CurrentTemp",
+                            "size": "extraLarge",
+                            "spacing": "none"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "°F",
+                            "weight": "bolder",
+                            "spacing": "small"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "HighTemp",
+                            "horizontalAlignment": "left"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "LowTemp",
+                            "horizontalAlignment": "left",
+                            "spacing": "none"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
