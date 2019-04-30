@@ -31,8 +31,8 @@ namespace GefjonAI
         public static readonly string QnAMakerKey = "Gefjon_Brain";
 
         //welcome message
-        private const string welcomeText = "Hello, I am Gefjon. I can help you find a location, get an image off google, and tell you who someone is.";
-        private bool welcomeflag = false; //bool so welcome text wont send twice
+        private const string welcomeText = "Hello, I am Gefjon. I can show you an image, and tell you the weather for a location";
+        private int id = 0; //bool so welcome text wont send twice
 
         //image search
         private const string subscriptionKey = "b90627b391db4a81a05981b558890f2b"; //subscription key used for the bing search
@@ -75,7 +75,7 @@ namespace GefjonAI
         {
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
-                /*var response = await _botServices.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
+                var response = await _botServices.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
                 if (response != null && response.Length > 0)
                 {
                     await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
@@ -86,55 +86,42 @@ namespace GefjonAI
                     var recognizerResult = await _botServices.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
                     var topIntent = recognizerResult?.GetTopScoringIntent();
                     await TriggerDialog(topIntent.Value.intent.ToString(), turnContext);
-                }*/
-
-                //
-                //Commented out the above for testing the luis methods only 
-                //
-                var recognizerResult = await _botServices.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
-                var topIntent = recognizerResult?.GetTopScoringIntent();
-                await TriggerDialog(topIntent.Value.intent.ToString(), turnContext);
+                }
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                
-                if (!welcomeflag)
+                /* await turnContext.SendActivityAsync("id before: " + id);
+
+                id += Convert.ToInt32(turnContext.Activity.Recipient.Id);
+                //await turnContext.SendActivityAsync(turnContext.Activity.Recipient.Id);
+
+                if(id <= 1)
                 {
-                    
-                    await turnContext.SendActivityAsync(welcomeText); // Send a welcome message to the user and tell them what actions they may perform to use this bot. 
-                }
-                welcomeflag = true;
+                    await turnContext.SendActivityAsync("id: " + id + " recipient: " + turnContext.Activity.Recipient.Id);
+                }*/
+
+                await turnContext.SendActivityAsync(welcomeText); // Send a welcome message to the user and tell them what actions they may perform to use this bot. Sends twice in emulator
+            }
+            else
+            {
+                await turnContext.SendActivityAsync("Sorry, I didn't quite understand that");
             }
         }
 
-        private async Task TriggerDialog(string intent, ITurnContext context) 
+        private async Task TriggerDialog(string intent, ITurnContext context)
         {
-            switch(intent)
+            switch (intent)
             {
-                case "GetLocation":
-                    await LocationFind(context);
-                    break;
-                case "GetPerson":
-                    await GetPerson(context);
-                    break;
                 case "GetImage":
                     await GetImage(context);
-                    break;
-                case "Search":
-                    await Search(context);
                     break;
                 case "Weather_GetCondition":
                     await GetWeatherConditions(context);
                     break;
-                case "Weather_GetForecast":
-                    await GetForecast(context);
+                case "PlaySticks": //Not yet implemented game
+                    //Play21SticksAsync(context);
                     break;
             }
-        }
-
-        private async Task GetForecast(ITurnContext context) //might remove to just do current weather conditions
-        {
-            await context.SendActivityAsync("Getting Person...");
         }
 
         private async Task GetWeatherConditions(ITurnContext context)
@@ -168,8 +155,8 @@ namespace GefjonAI
             w.City = jsonObject.location.name;
             w.State = jsonObject.location.region;
             w.CurrentTemp = jsonObject.current.temp_f;
-            //w.ImageUrl = jsonObject.current.condition.icon; //.Remove gets rid of the first two characters of the url was //url
-            w.ImageUrl = "cdn.apixu.com/weather/64x64/day/143.png";
+            //w.ImageUrl = jsonObject.current.condition.icon;
+            w.ImageUrl = "http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png";
             w.DateTime = jsonObject.location.localtime; //need to format date and time 
             w.HighTemp = "Wind: " + jsonObject.current.wind_mph + " MPH";
             w.LowTemp = "Feels Like " + jsonObject.current.feelslike_f + "°F";
@@ -177,20 +164,20 @@ namespace GefjonAI
 
         private Attachment CreateAdaptiveCardAttachment() 
         {
-            var cardObject = AdaptiveCard.FromJson(UpdateCardWeatherValues()).Card;
-            
-            var adaptiveCardAttachment = new Attachment()
+            var cardObject = AdaptiveCard.FromJson(UpdateCardWeatherValues()).Card; //Creates an adaptive card 
+
+            var adaptiveCardAttachment = new Attachment() //creates an attachment to be sent by the bot
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = cardObject,
             };
-            return adaptiveCardAttachment;
+            return adaptiveCardAttachment; //returns the created adaptive card attachment
         }
 
         private string UpdateCardWeatherValues()
         {
             string updated;
-            var adaptiveCardJson = File.ReadAllText(filepath);
+            var adaptiveCardJson = File.ReadAllText(filepath); //Gets the card for the JSON
 
             //puts the information recieved from APIXU into the adaptive card 
             updated = adaptiveCardJson.Replace("City, State", w.City + ", " + w.State);
@@ -200,17 +187,7 @@ namespace GefjonAI
             updated = updated.Replace("LowTemp", w.LowTemp);
             updated = updated.Replace("ImageURL", w.ImageUrl); //save current url and figure out other image urls http://messagecardplayground.azurewebsites.net/assets/Mostly%20Cloudy-Square.png
 
-            return updated;
-        }
-
-        private async Task GetPerson(ITurnContext context) //not yet implemented
-        {
-            await context.SendActivityAsync("Getting Person...");
-        }
-
-        private async Task LocationFind(ITurnContext context) //not yet implemented
-        {
-            await context.SendActivityAsync("Finding Location...");
+            return updated; //returns the JSON with the updated values
         }
 
         private async Task GetImage(ITurnContext context)
@@ -253,11 +230,6 @@ namespace GefjonAI
                     searchResult.relevantHeaders[header] = response.Headers[header];
             }
             return searchResult;
-        }
-
-        private async Task Search(ITurnContext context) //not yet implemented
-        {
-            await context.SendActivityAsync("Searching...");
         }
 
         struct SearchResult //For formatting JSON response
