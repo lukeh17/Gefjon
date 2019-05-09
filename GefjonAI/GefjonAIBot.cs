@@ -35,7 +35,7 @@ namespace GefjonAI
         private int id = 0; //bool so welcome text wont send twice
 
         //image search
-        private const string subscriptionKey = "b90627b391db4a81a05981b558890f2b"; //subscription key used for the bing search
+        private const string subscriptionKey = "af5f65eda2c1455a8fde54d152446121"; //subscription key used for the bing search
         private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/images/search";
 
         //weather 
@@ -86,6 +86,11 @@ namespace GefjonAI
                     var recognizerResult = await _botServices.LuisServices[LuisKey].RecognizeAsync(turnContext, cancellationToken);
                     var topIntent = recognizerResult?.GetTopScoringIntent();
                     await TriggerDialog(topIntent.Value.intent.ToString(), turnContext);
+
+                    if (topIntent.Value.intent.ToString() == "None")
+                    {
+                        await turnContext.SendActivityAsync("Sorry, I didn't quite understand that");
+                    }
                 }
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)

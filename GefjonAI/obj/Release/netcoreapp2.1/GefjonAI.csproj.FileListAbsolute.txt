@@ -1,0 +1,15 @@
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.bot
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.deps.json
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.runtimeconfig.json
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.runtimeconfig.dev.json
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.dll
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\bin\Release\netcoreapp2.1\GefjonAI.pdb
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.csprojAssemblyReference.cache
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.csproj.CoreCompileInputs.cache
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.RazorAssemblyInfo.cache
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.RazorAssemblyInfo.cs
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.AssemblyInfoInputs.cache
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.AssemblyInfo.cs
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.RazorTargetAssemblyInfo.cache
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.dll
+C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\obj\Release\netcoreapp2.1\GefjonAI.pdb

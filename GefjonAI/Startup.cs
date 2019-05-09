@@ -121,7 +121,10 @@ namespace GefjonAI
 
             services.AddBot<GefjonAIBot>(options =>
            {
-               options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+               var appId = Configuration.GetSection("MicrosoftAppId").Value;
+               var appPassword = Configuration.GetSection("MicrosoftAppPassword").Value;
+               options.CredentialProvider = new SimpleCredentialProvider(appId, appPassword);
+               //options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                // Catches any errors that occur during a conversation turn and logs them to currently
                // configured ILogger.
@@ -130,7 +133,7 @@ namespace GefjonAI
                options.OnTurnError = async (context, exception) =>
                {
                    logger.LogError($"Exception caught : {exception}");
-                   await context.SendActivityAsync("Sorry, it looks like something went wrong.");
+                   await context.SendActivityAsync("Sorry, it looks like something went wrong: " + exception);
                };
            });
 
