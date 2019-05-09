@@ -32,14 +32,13 @@ namespace GefjonAI
 
         //welcome message
         private const string welcomeText = "Hello, I am Gefjon. I can show you an image, and tell you the weather for a location";
-        private int id = 0; //bool so welcome text wont send twice
 
         //image search
-        private const string subscriptionKey = "af5f65eda2c1455a8fde54d152446121"; //subscription key used for the bing search
+        private const string subscriptionKey = "5d9e7fa0c191434e9f9fa555b408cab1"; //subscription key used for the bing search
         private const string uriBase = "https://api.cognitive.microsoft.com/bing/v7.0/images/search";
 
         //weather 
-        private const string filepath = @"C:\Users\lukeh\Desktop\Comp Sci\GitHub\Gefjon\GefjonAI\card.json"; //file path to the adaptive card json file
+        private const string filepath = @"D:\home\site\wwwroot\card.json"; //file path to the adaptive card json file in kudu. won't work locally
         private const string APIXUKey = "0d268c151f8047458e4185904192404"; 
         Weather w = new Weather(); //Weather object stores variables for the adaptive card
         #endregion
@@ -76,6 +75,13 @@ namespace GefjonAI
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 var response = await _botServices.QnAServices[QnAMakerKey].GetAnswersAsync(turnContext);
+
+                //For telegram. When the conversation with a bot starts telegram sends /start
+                if(turnContext.Activity.Text == "/start")
+                {
+                    await turnContext.SendActivityAsync(welcomeText);
+                }
+
                 if (response != null && response.Length > 0)
                 {
                     await turnContext.SendActivityAsync(response[0].Answer, cancellationToken: cancellationToken);
@@ -95,17 +101,8 @@ namespace GefjonAI
             }
             else if (turnContext.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                /* await turnContext.SendActivityAsync("id before: " + id);
 
-                id += Convert.ToInt32(turnContext.Activity.Recipient.Id);
-                //await turnContext.SendActivityAsync(turnContext.Activity.Recipient.Id);
-
-                if(id <= 1)
-                {
-                    await turnContext.SendActivityAsync("id: " + id + " recipient: " + turnContext.Activity.Recipient.Id);
-                }*/
-
-                await turnContext.SendActivityAsync(welcomeText); // Send a welcome message to the user and tell them what actions they may perform to use this bot. Sends twice in emulator
+                await turnContext.SendActivityAsync(welcomeText); // Send a welcome message to the user and tell them what actions they may perform to use this bot
             }
             else
             {
